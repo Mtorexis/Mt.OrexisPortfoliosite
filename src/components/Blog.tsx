@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const slides = [
   "スライド1の内容",
@@ -17,12 +17,7 @@ function Blog() {
   const canPrev = start > 0;
   const canNext = start + 3 < slides.length;
 
-  const prev = () => {
-    if (canPrev) setStart(start - 1);
-  };
-  const next = () => {
-    if (canNext) setStart(start + 1);
-  };
+
 
   return (
     <section id="blog" className="blog-section">
@@ -91,7 +86,7 @@ function Blog() {
               {visibleSlides.map((content, idx) => (
                 <div className="slide" key={idx}>
                   <div className="slide-left">
-                    <img className="slide-leftimage" />
+                    <img src="/image/4articleimage.png" className="slide-leftimage" />
                     <div className="slide-left-circle"></div>
                     <img src="/image/4commet.png" alt="Commet" className="slide-left-commet" />
                     <div className="slide-left-number">
