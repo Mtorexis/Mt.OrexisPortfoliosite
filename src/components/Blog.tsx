@@ -14,8 +14,8 @@ function Blog() {
   // 表示するスライドを3枚だけ切り出す
   const visibleSlides = slides.slice(start, start + 3);
 
-  const canPrev = start > 0;
-  const canNext = start + 3 < slides.length;
+  // const canPrev = start > 0;
+  // const canNext = start + 3 < slides.length;
 
 
 
