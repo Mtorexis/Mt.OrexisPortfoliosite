@@ -1570,6 +1570,17 @@ div {
   border-radius: 1px;
 }
 
+.article-link {
+  font-size: 0.5rem;
+  color:#050A05;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.article-link:hover {
+  color: #A97443;
+}
+
 .slider-controls {
   display: flex;
   flex-direction: column;

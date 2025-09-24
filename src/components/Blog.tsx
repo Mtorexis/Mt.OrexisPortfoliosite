@@ -1,18 +1,48 @@
 import { useState } from 'react';
 
-const slides = [
-  "スライド1の内容",
-  "スライド2の内容",
-  "スライド3の内容",
-  "スライド4の内容",
-  "スライド5の内容"
+const articles = [
+  {
+    id: 1,
+    title: "描いて体感するアートセラピーの力",
+    date: "2025/09/20",
+    content: "...More　※クリックするとNoteへ遷移します。",
+    tag: "#Note"
+  },
+  {
+    id: 2,
+    title: "Title02", 
+    date: "YYYY/MM/DD",
+    content: "記事作成中〜:)",
+    tag: "#Design"
+  },
+  {
+    id: 3,
+    title: "Title03",
+    date: "YYYY/MM/DD", 
+    content: "記事作成中〜:)",
+    tag: "#Art"
+  },
+  {
+    id: 4,
+    title: "Title04",
+    date: "YYYY/MM/DD",
+    content: "記事作成中〜:)", 
+    tag: "#Portfolio"
+  },
+  {
+    id: 5,
+    title: "Title05",
+    date: "YYYY/MM/DD",
+    content: "記事作成中〜:)", 
+    tag: "#Blog"
+  }
 ];
 
 function Blog() {
   const [start, setStart] = useState(0);
 
   // 表示するスライドを3枚だけ切り出す
-  const visibleSlides = slides.slice(start, start + 3);
+  const visibleArticles = articles.slice(start, start + 3);
 
   // const canPrev = start > 0;
   // const canNext = start + 3 < slides.length;
@@ -83,8 +113,8 @@ function Blog() {
                 ))}
               </div>
               {/* スライド本体 */}
-              {visibleSlides.map((content, idx) => (
-                <div className="slide" key={idx}>
+              {visibleArticles.map((article, idx) => (
+                <div className="slide" key={article.id}>
                   <div className="slide-left">
                     <img src="/image/4articleimage.png" className="slide-leftimage" />
                     <div className="slide-left-circle"></div>
@@ -96,13 +126,22 @@ function Blog() {
                   <div className="slide-center-line"></div>
                   <div className="slide-right">
                     <div className="slide-right-header">
-                      <div className="slide-title">Title</div>
-                      <div className="slide-date">2024/06/01</div>
+                    <div className="slide-title">{article.title}</div>
+                      <div className="slide-date">{article.date}</div>
                       <div className="slide-header-line"></div>
-                      <div className="slide-tag">#Tag</div>
+                      <div className="slide-tag">{article.tag}</div>
                     </div>
                     <div className="slide-right-item slide-right-line"></div>
-                    <div className="slide-right-item">{content}</div>
+                    <div className="slide-right-item">
+                      <a 
+                        href="Note" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="article-link"
+                      >
+                        {article.content}
+                      </a>
+                    </div>
                   </div>
                 </div>
               ))}
