@@ -1520,7 +1520,7 @@ div {
   display: flex;
   flex-direction: row;   /* 横並び */
   align-items: center;
-  /*width: 100%;*/
+  width: 100%;
   gap: 12px;
   justify-content: flex-start;
   text-transform: uppercase;
@@ -1528,7 +1528,8 @@ div {
 .slide-title {
   flex: 1;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.7rem;
+  text-align: left;
 }
 
 .slide-date {

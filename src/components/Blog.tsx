@@ -4,16 +4,16 @@ const articles = [
   {
     id: 1,
     title: "描いて体感するアートセラピーの力",
-    date: "2025/09/20",
+    date: "2025/09/22",
     content: "...More　※クリックするとNoteへ遷移します。",
     tag: "#Note"
   },
   {
     id: 2,
-    title: "Title02", 
-    date: "YYYY/MM/DD",
-    content: "記事作成中〜:)",
-    tag: "#Design"
+    title: "AIとともに生きるアート - おすすめのツールと展示会 -", 
+    date: "2025/09/24",
+    content: "...More　※クリックするとNoteへ遷移します。",
+    tag: "#Note"
   },
   {
     id: 3,
@@ -40,14 +40,14 @@ const articles = [
 
 function Blog() {
   const [start, setStart] = useState(0);
-  const [showNoteEmbed, setShowNoteEmbed] = useState(false);
+  const [noteSrc, setNoteSrc] = useState<string | null>(null);
 
   // 表示するスライドを3枚だけ切り出す
   const visibleArticles = articles.slice(start, start + 3);
 
   // noteの埋め込みスクリプトを動的に読み込み
   useEffect(() => {
-    if (showNoteEmbed) {
+    if (noteSrc) {
       const script = document.createElement('script');
       script.src = 'https://note.com/scripts/embed.js';
       script.charset = 'utf-8';
@@ -62,7 +62,7 @@ function Blog() {
         }
       };
     }
-  }, [showNoteEmbed]);
+  }, [noteSrc]);
 
   // const canPrev = start > 0;
   // const canNext = start + 3 < slides.length;
@@ -153,9 +153,9 @@ function Blog() {
                     </div>
                     <div className="slide-right-item slide-right-line"></div>
                     <div className="slide-right-item">
-                      {article.id === 1 ? (
+                      {article.id === 1 && (
                         <button 
-                          onClick={() => setShowNoteEmbed(true)}
+                          onClick={() => setNoteSrc('https://note.com/embed/notes/n275a5d9bd3cd')}
                           className="article-link"
                           style={{ 
                             background: 'none', 
@@ -168,7 +168,24 @@ function Blog() {
                         >
                           {article.content}
                         </button>
-                      ) : (
+                      )}
+                      {article.id === 2 && (
+                        <button 
+                          onClick={() => setNoteSrc('https://note.com/embed/notes/n6bd268f45194')}
+                          className="article-link"
+                          style={{ 
+                            background: 'none', 
+                            border: 'none', 
+                            cursor: 'pointer',
+                            textDecoration: 'underline',
+                            color: 'inherit',
+                            font: 'inherit'
+                          }}
+                        >
+                          {article.content}
+                        </button>
+                      )}
+                      {article.id !== 1 && article.id !== 2 && (
                         <div className="article-content">
                           {article.content}
                         </div>
@@ -226,7 +243,7 @@ function Blog() {
       </div>
 
       {/* Note埋め込みモーダル */}
-      {showNoteEmbed && (
+      {noteSrc && (
         <div 
           className="note-modal-overlay"
           style={{
@@ -241,7 +258,7 @@ function Blog() {
             alignItems: 'center',
             zIndex: 1000
           }}
-          onClick={() => setShowNoteEmbed(false)}
+          onClick={() => setNoteSrc(null)}
         >
           <div 
             className="note-modal-content"
@@ -257,7 +274,7 @@ function Blog() {
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              onClick={() => setShowNoteEmbed(false)}
+              onClick={() => setNoteSrc(null)}
               style={{
                 position: 'absolute',
                 top: '10px',
@@ -273,7 +290,7 @@ function Blog() {
             </button>
             <iframe 
               className="note-embed" 
-              src="https://note.com/embed/notes/n4fdd9e499e9e" 
+              src={noteSrc || ''}
               style={{
                 border: 0, 
                 display: 'block', 
