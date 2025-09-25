@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const articles = [
   {
@@ -40,9 +40,29 @@ const articles = [
 
 function Blog() {
   const [start, setStart] = useState(0);
+  const [showNoteEmbed, setShowNoteEmbed] = useState(false);
 
   // 表示するスライドを3枚だけ切り出す
   const visibleArticles = articles.slice(start, start + 3);
+
+  // noteの埋め込みスクリプトを動的に読み込み
+  useEffect(() => {
+    if (showNoteEmbed) {
+      const script = document.createElement('script');
+      script.src = 'https://note.com/scripts/embed.js';
+      script.charset = 'utf-8';
+      script.async = true;
+      document.head.appendChild(script);
+      
+      return () => {
+        // クリーンアップ時にスクリプトを削除
+        const existingScript = document.querySelector('script[src="https://note.com/scripts/embed.js"]');
+        if (existingScript) {
+          document.head.removeChild(existingScript);
+        }
+      };
+    }
+  }, [showNoteEmbed]);
 
   // const canPrev = start > 0;
   // const canNext = start + 3 < slides.length;
@@ -133,14 +153,26 @@ function Blog() {
                     </div>
                     <div className="slide-right-item slide-right-line"></div>
                     <div className="slide-right-item">
-                      <a 
-                        href="Note" 
-                        target="_blank" 
-                        rel="https://note.com/mt_orexis/n/n275a5d9bd3cd?sub_rt=share_sb"
-                        className="article-link"
-                      >
-                        {article.content}
-                      </a>
+                      {article.id === 1 ? (
+                        <button 
+                          onClick={() => setShowNoteEmbed(true)}
+                          className="article-link"
+                          style={{ 
+                            background: 'none', 
+                            border: 'none', 
+                            cursor: 'pointer',
+                            textDecoration: 'underline',
+                            color: 'inherit',
+                            font: 'inherit'
+                          }}
+                        >
+                          {article.content}
+                        </button>
+                      ) : (
+                        <div className="article-content">
+                          {article.content}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -192,6 +224,71 @@ function Blog() {
         </div>
         <img alt="line" className="blog-bottom-line" src="/image/0linemain01.png"></img>
       </div>
+
+      {/* Note埋め込みモーダル */}
+      {showNoteEmbed && (
+        <div 
+          className="note-modal-overlay"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000
+          }}
+          onClick={() => setShowNoteEmbed(false)}
+        >
+          <div 
+            className="note-modal-content"
+            style={{
+              backgroundColor: 'white',
+              padding: '20px',
+              borderRadius: '10px',
+              maxWidth: '90vw',
+              maxHeight: '90vh',
+              overflow: 'auto',
+              position: 'relative'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowNoteEmbed(false)}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '15px',
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                color: '#666'
+              }}
+            >
+              ×
+            </button>
+            <iframe 
+              className="note-embed" 
+              src="https://note.com/embed/notes/n4fdd9e499e9e" 
+              style={{
+                border: 0, 
+                display: 'block', 
+                maxWidth: '100%', 
+                width: '494px', 
+                padding: 0, 
+                margin: '10px 0px', 
+                position: 'static', 
+                visibility: 'visible'
+              }} 
+              height="400"
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }
