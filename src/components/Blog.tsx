@@ -136,7 +136,7 @@ function Blog() {
                       <a 
                         href="Note" 
                         target="_blank" 
-                        rel="noopener noreferrer"
+                        rel="https://note.com/mt_orexis/n/n275a5d9bd3cd?sub_rt=share_sb"
                         className="article-link"
                       >
                         {article.content}
